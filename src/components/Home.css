@@ -1,0 +1,49 @@
+/* General container padding */
+.container {
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+
+/* Headings */
+h1, h3, h4 {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: 600;
+}
+
+/* Paragraphs */
+p {
+  font-size: 1.1rem;
+  line-height: 1.7;
+}
+
+/* Lead paragraph under welcome heading */
+.lead {
+  font-size: 1.2rem;
+  color: #555;
+}
+
+/* Images */
+img {
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+/* Buttons */
+.btn {
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 8px;
+}
+
+/* Responsive spacing below sections */
+@media (max-width: 768px) {
+  .container {
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+
+  .btn {
+    width: 100%;
+    margin-top: 10px;
+  }
+}
