@@ -8,43 +8,44 @@ export default class News extends Component {
       articles: [],
       loading: true,
       searchQuery: '',
-      category: 'technology', // default
-      date: '' // for date filtering
+      category: 'technology'
     };
   }
 
   componentDidMount() {
     this.fetchNews();
   }
+
   fetchNews = async () => {
     this.setState({ loading: true });
-    const baseUrl = "https://newsapi.org/v2/everything";
-    const query = this.state.searchQuery || this.state.category || "technology";
-    const apiKey = "ee5ef07dee2b4057b294441275fca8aa";
-    const dateParam = this.state.date ? `&from=${this.state.date}&to=${this.state.date}` : "";
-    const url = `${baseUrl}?q=${query}${dateParam}&sortBy=publishedAt&apiKey=${apiKey}`;
+
+    const API_KEY = "e351652eaf6723e725ed1eb73012713a"; // Replace with your actual GNews API key
+    const { searchQuery, category } = this.state;
+    const query = searchQuery || category || "technology";
+
+    const url = `https://gnews.io/api/v4/search?q=${query}&lang=en&token=${API_KEY}`;
 
     try {
-      const data = await fetch(url);
-      const parsedData = await data.json();
+      const res = await fetch(url);
+      const data = await res.json();
 
-      // Safe check: articles must be an array
       this.setState({
-        articles: Array.isArray(parsedData.articles) ? parsedData.articles : [],
+        articles: Array.isArray(data.articles) ? data.articles : [],
         loading: false
       });
-    } catch (error) {
-      console.error("Error fetching news:", error);
+    } catch (err) {
+      console.error("❌ Error fetching news:", err);
       this.setState({ articles: [], loading: false });
     }
   };
 
   handleCategoryChange = (category) => {
-    this.setState({ category, searchQuery: '', date: '' }, () => this.fetchNews());
+    this.setState({ category, searchQuery: '' }, this.fetchNews);
   };
 
   render() {
     const { mode } = this.props;
+    const { searchQuery, loading, articles } = this.state;
 
     return (
       <div className={`container my-4 text-${mode === 'light' ? 'dark' : 'light'}`}>
@@ -56,21 +57,11 @@ export default class News extends Component {
             type="text"
             className={`form-control bg-${mode} text-${mode === 'light' ? 'dark' : 'light'}`}
             placeholder="Search news..."
-            value={this.state.searchQuery}
+            value={searchQuery}
             onChange={(e) => this.setState({ searchQuery: e.target.value })}
             onKeyDown={(e) => {
               if (e.key === 'Enter') this.fetchNews();
             }}
-          />
-        </div>
-
-        {/* 📅 Date Picker */}
-        <div className="mb-3">
-          <input
-            type="date"
-            className={`form-control bg-${mode} text-${mode === 'light' ? 'dark' : 'light'}`}
-            value={this.state.date}
-            onChange={(e) => this.setState({ date: e.target.value }, () => this.fetchNews())}
           />
         </div>
 
@@ -87,15 +78,18 @@ export default class News extends Component {
           ))}
         </div>
 
+        {/* 🔄 Loading */}
+        {loading && <p className="text-center">Loading...</p>}
+
         {/* 📰 News Grid */}
         <div className="row">
-          {this.state.articles.map((element) => (
-            <div className="col-md-3" key={element.url}>
+          {articles.map((article) => (
+            <div className="col-md-3" key={article.url}>
               <NewsItem
-                title={element.title || ""}
-                description={element.description || ""}
-                imageUrl={element.urlToImage}
-                newsUrl={element.url}
+                title={article.title || ""}
+                description={article.description || ""}
+                imageUrl={article.image}
+                newsUrl={article.url}
               />
             </div>
           ))}

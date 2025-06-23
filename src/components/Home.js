@@ -13,7 +13,7 @@ export default function Home() {
 }  */
 
 
-  import React from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Home.css';
 
@@ -34,6 +34,9 @@ const Home = () => {
         </p>
       </div>
 
+
+      <br />
+      <br />
       {/* News Info Section: Image + Text + Button */}
       <div className="row align-items-center mb-5">
         <div className="col-md-6">
@@ -50,14 +53,25 @@ const Home = () => {
         </div>
       </div>
 
+
+      <br />
+      <br />
+
+
+
       {/* Text section about today's news */}
-      <div className="mb-5">
+      <div className=" text-center mt-4 mb-5">
         <h4>🗞️ Today's Top Stories</h4>
         <p>
           From national developments to international affairs, NewsMonkey compiles the most important stories of the day. Get concise summaries, accurate facts, and fast delivery — no fluff, just facts.
         </p>
       </div>
 
+      <br />
+      <br />
+
+
+      
       {/* Image + Text + Button side-by-side */}
       <div className="row align-items-center">
         <div className="col-md-6 order-md-2">
@@ -73,6 +87,9 @@ const Home = () => {
           </button>
         </div>
       </div>
+
+      <br />
+      <br />
     </div>
   );
 };
